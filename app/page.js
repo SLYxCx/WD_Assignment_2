@@ -1,10 +1,13 @@
+"use client";
 import StudentList from "./components/StudentList";
 import AddStudent from "./components/AddStudent";
 import FindModifyStudent from "./components/FindModifyStudent";
 import Navbar from "./components/Navbar";
+import { useState } from "react";
 
-export default function Home({ searchParams }) {
-  const activeComponent = searchParams?.view || "view";
+export default function Home() {
+  // Server component does not need to maintain activeComponent state.
+  const [activeComponent, setActiveComponent] = useState("view");
 
   const renderComponent = () => {
     switch (activeComponent) {
@@ -20,10 +23,13 @@ export default function Home({ searchParams }) {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Navbar */}
-      <Navbar activeComponent={activeComponent} />
+      <Navbar
+        activeComponent={activeComponent}
+        onNavigate={setActiveComponent}
+      />
 
       {/* Main Content */}
-      <main className="flex-grow p-8 text-center flex justify-center items-center ">
+      <main className="flex-grow p-8 text-center flex justify-center items-center">
         {renderComponent()}
       </main>
 

@@ -1,16 +1,30 @@
-async function getStudents() {
-  const res = await fetch("http://localhost:3000/students");
-  const students = await res.json();
-  return students;
-}
+"use client";
+import React, { useEffect, useState } from "react";
 
-export default async function StudentList() {
-  const students = await getStudents();
+export default function StudentList() {
+  const [students, setStudents] = useState(null);
+
+  useEffect(() => {
+    async function fetchStudents() {
+      try {
+        const res = await fetch("http://localhost:3000/students");
+        if (!res.ok) throw new Error("Failed to fetch students");
+        const data = await res.json();
+        setStudents(data);
+      } catch (error) {
+        console.error(error);
+        setStudents([]);
+      }
+    }
+    fetchStudents();
+  }, []);
 
   return (
     <div className="p-8 md:w-2/3 w-max">
       <h2 className="text-2xl font-bold mb-6 text-center">Students</h2>
-      {!students ? (
+      {students === null ? (
+        <p>Loading...</p>
+      ) : students.length === 0 ? (
         <p>No students found within database.</p>
       ) : (
         <ul className="gap-10 grid grid-cols-2">

@@ -1,15 +1,9 @@
-// app/components/Navbar.js
 "use client";
-import React, { useState } from "react";
-import { useRouter } from "next/navigation";
+import React from "react";
 
-export default function Navbar({ activeComponent }) {
-  const [active, setActive] = useState(activeComponent);
-  const router = useRouter();
-
+export default function Navbar({ activeComponent, onNavigate }) {
   const handleNavigation = (component) => {
-    setActive(component);
-    router.push(`/?view=${component}`);
+    onNavigate(component);
   };
 
   return (
@@ -20,7 +14,7 @@ export default function Navbar({ activeComponent }) {
           <button
             onClick={() => handleNavigation("view")}
             className={`hover:underline ${
-              active === "view" ? "font-bold" : ""
+              activeComponent === "view" ? "font-bold" : ""
             }`}
           >
             View Student List
@@ -29,7 +23,9 @@ export default function Navbar({ activeComponent }) {
         <li>
           <button
             onClick={() => handleNavigation("add")}
-            className={`hover:underline ${active === "add" ? "font-bold" : ""}`}
+            className={`hover:underline ${
+              activeComponent === "add" ? "font-bold" : ""
+            }`}
           >
             Add Student
           </button>
@@ -38,7 +34,7 @@ export default function Navbar({ activeComponent }) {
           <button
             onClick={() => handleNavigation("find")}
             className={`hover:underline ${
-              active === "find" ? "font-bold" : ""
+              activeComponent === "find" ? "font-bold" : ""
             }`}
           >
             Find/Modify Student
